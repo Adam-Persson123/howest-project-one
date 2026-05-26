@@ -1,10 +1,13 @@
 # Project Title
 
-**FIRST & LAST NAME:** A B
+**FIRST & LAST NAME:** 
+ADAM PERSSON
 
-**Sparring Partner:** C D
+**Sparring Partner:** 
+Carl Jonsson
 
-**Project Summary in max 10 words:** E
+**Project Summary in max 10 words:** 
+Self-sorting bin that tells you where to throw your trash. 
 
 ---
 
