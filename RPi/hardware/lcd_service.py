@@ -34,8 +34,14 @@ class I2CLCD:
         self._init_lcd()
 
     def _init_lcd(self) -> None:
-        # TODO: initialize LCD
-        pass
+        self._toggle_enable(0x30)
+        self._toggle_enable(0x30)
+        self._toggle_enable(0x30)
+        self._toggle_enable(0x20)
+        self.send_command(0x28)
+        self.send_command(0x0C)
+        self.send_command(0x06)
+        self.clear()
 
     def _toggle_enable(self, bits: int) -> None:
         time.sleep(self.E_DELAY)
@@ -59,8 +65,10 @@ class I2CLCD:
         time.sleep(0.002)
 
     def message(self, text: str, line: int) -> None:
-        # TODO: send message to LCD (multiple lines)
-        pass
+        self.send_command(self.LINE_1 if line == 1 else self.LINE_2)
+        padded = text.ljust(self.width, " ")[: self.width]
+        for char in padded:
+            self._send_byte(ord(char), self.LCD_CHR)
 
 
 class LCDService:

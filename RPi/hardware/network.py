@@ -50,7 +50,13 @@ def wait_for_host_interface_ips(
 def request_sudo_poweroff() -> None:
     """Trigger shutdown via sudo (NOPASSWD expected). Runs detached so HTTP can respond."""
     try:
-        # TODO: run "sudo poweroff" using "subprocess.Popen"
+        subprocess.Popen(
+            ["sudo", "poweroff"],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            start_new_session=True,
+        )
         pass
     except Exception as exc:
         print(f"[POWEROFF] sudo poweroff failed to start: {exc}")

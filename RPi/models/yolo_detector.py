@@ -14,7 +14,21 @@ class YoloDroneModel:
         self._model = YOLO(str(model_path))
 
     def run(self, frame_rgb: np.ndarray, conf: float, iou: float) -> InferenceResult:
-        # TODO: run inference
+        
+        src_bgr = cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2BGR)
+        result = self._model.predict(
+            source=src_bgr, 
+            conf=float(conf), 
+            iou=float(iou),
+            imgsz=640,
+            verbose=False,
+            )[0]
+        annotated_rgb = cv2.cvtColor(result.plot(), cv2.COLOR_BGR2RGB)
+        cls_ids = result.boxes.cls.cpu().tolist() if result.boxes is not None else []
+        counts: dict[str, int] = {}
+        for cls_id in cls_ids:
+            name = self._model.model.names[int(cls_id)]
+            counts[name] = counts.get(name, 0) + 1
         payload = {
             "model": "best.pt",
             "detection_count": len(cls_ids),

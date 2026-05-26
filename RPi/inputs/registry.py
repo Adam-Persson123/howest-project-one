@@ -18,7 +18,6 @@ INPUT_BROWSER_WEBCAM = "browser_webcam"
 
 INPUT_OPTIONS = (
     INPUT_RPI_CAMERA,
-    INPUT_CSI_CAMERA,
     INPUT_UPLOAD,
     INPUT_BROWSER_WEBCAM,
 )
@@ -74,7 +73,6 @@ def build_input_providers(cfg: AppConfig) -> dict[str, InputProvider]:
 
     return {
         INPUT_RPI_CAMERA: UsbCameraInput(cfg.camera_device, cfg.camera_index),
-        INPUT_CSI_CAMERA: CsiCameraInput(cfg.csi_buffer_resolution, cfg.csi_bgr_to_rgb),
         INPUT_UPLOAD: UploadInput(),
         INPUT_BROWSER_WEBCAM: BrowserWebcamInput(),
     }
@@ -88,7 +86,6 @@ def input_radio_choices() -> list[tuple[str, str]]:
 
     return [
         (UsbCameraInput.meta.label, INPUT_RPI_CAMERA),
-        (CsiCameraInput.meta.label, INPUT_CSI_CAMERA),
         (UploadInput.meta.label, INPUT_UPLOAD),
         (BrowserWebcamInput.meta.label, INPUT_BROWSER_WEBCAM),
     ]
