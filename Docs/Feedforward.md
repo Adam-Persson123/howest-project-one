@@ -1,12 +1,13 @@
 # Project Information
 
-**FIRST NAME LAST NAME:** A B  
+**FIRST NAME LAST NAME:** Adam Persson
 
-**Sparring Partner:** C D  
+**Sparring Partner:** Carl Jonsson
 
-**Project Title:** F  
+**Project Title:** The Self-sorting Bin
 
-**Project Summary in max 10 words:** E  
+**Project Summary in max 10 words:**  
+Self-sorting bin that tells you where to throw your trash. 
 
 # Tips for Feedback Conversations
 
