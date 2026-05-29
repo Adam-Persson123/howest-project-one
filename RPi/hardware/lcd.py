@@ -1,4 +1,4 @@
-import smbus
+import smbus2
 from time import sleep
 from RPi import GPIO
 
@@ -22,7 +22,7 @@ class LCD:
     E_DELAY = 0.0002
 
     bus = 1
-    i2c = smbus.SMBus(bus)
+    i2c = smbus2.SMBus(bus)
 
     def set_data_bits(self, value, mode):
         MSNibble = value & 0xF0
