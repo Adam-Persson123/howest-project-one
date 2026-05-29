@@ -1,23 +1,37 @@
-"""RPi Local Multi-Model Dashboard — entry point."""
+import gradio as gr
+import ui.about_page as about_page
+import ui.data_page as data_page
+import ui.operating_page as operating_page
+import ui.debug_page as debug_page
 
-from __future__ import annotations
+import RPi.GPIO as GPIO
+from time import sleep
 
-from config import AppConfig
-from services.bootstrap import bootstrap_app, shutdown_app
-from ui.dashboard import build_dashboard, launch_dashboard
+"""RPi UI Dashboard — entry point."""
 
-
-def main() -> None:
-    # --- init ---
-    ctx = bootstrap_app(AppConfig())
-    demo, _inference = build_dashboard(ctx)
-
-    # --- gradio run ---
-    try:
-        launch_dashboard(ctx, demo)
-    finally:
-        shutdown_app(ctx)
-
+with gr.Blocks() as app:
+    gr.Markdown(
+        "# Self-sorting Bin"
+    )
+    with gr.Tab("About"):
+        about_page.build_about_page()
+    with gr.Tab("Data"):
+        data_page.build_data_page()
+    with gr.Tab("Operating"):
+        operating_page.build_operating_page()
+    with gr.Tab("Debug"):
+        debug_page.build_debug_page()
 
 if __name__ == "__main__":
-    main()
+    app.launch(theme=gr.themes.Soft(primary_hue="green"))
+
+try:
+    while True:
+        pass
+
+except KeyboardInterrupt:
+    pass
+
+finally:
+    GPIO.cleanup()
+
