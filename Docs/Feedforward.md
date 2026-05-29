@@ -33,17 +33,25 @@ Self-sorting bin that tells you where to throw your trash.
 
 # Feedforward Conversations
 
-## Conversation 1 (Date: xx/xx/2026)
+## Conversation 1 (Date: 29/05/2026)
 
-Lecturer:
+Lecturer: Thomas H.
 
 Questions for this conversation:
 
-- Question 1: V
+- Question 1: How much of the provided code do I actually need? 
 
-This is the feedback on my questions.
+- Question 2: Can I essentially just do everything from the ground up? 
 
-- Feedback 1: G
+- Question 3: Do I have to follow the architecture in 1_Architecture.md? 
+
+This is the feedback on my questions. 
+
+- Feedback 1: Its up to you to find what you need and build upon it from there. 
+
+- Feedback 2: Gradio is recommended to build from the ground up. 
+
+- Feedback 3: No; the repository is just a generic example. 
 
 ## Conversation 2 (Date: xx/xx/2026)
 
