@@ -7,4 +7,7 @@ __pycache__/
 .ipynb_checkpoints/
 
 # Optional: ignore exported weights here; copy best.pt to RPi/ai/ manually
-# *.pt
+*.pt
+
+# Dataset
+Trash-*
