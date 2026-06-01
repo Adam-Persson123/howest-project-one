@@ -1,10 +1,13 @@
 import RPi.GPIO as GPIO
 from hardware.lcd import LCD
 from hardware.ultrasonic import DistanceSensor
+from inputs.usb_camera import get_usb_frame
 from time import sleep
+from ultralytics import YOLO
 
 ds = DistanceSensor()
 lcd = LCD("LCD")
+model = YOLO("../ai/best.pt")
 
 def standby(rgb):
     rgb.set_color(0, 0, 0)
@@ -15,6 +18,16 @@ def active(rgb):
     rgb.set_color(255, 255, 255)
     lcd.send_string("Welcome!", 1)
     lcd.send_string("Distance: " + str(ds.getDistance()), 2)
+
+    frame = get_usb_frame()
+    if frame is not None:
+        results = model(frame)
+        for result in results:
+            classes = result.names
+            for c in classes:
+                lcd.send_string(c, 1)
+
+        
 
 def main_loop(rgb):
 
