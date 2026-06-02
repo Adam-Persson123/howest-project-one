@@ -15,7 +15,7 @@ def build_data_page():
     with gr.Row():
         value = gr.Textbox(label="Ultrasonic value", value=get_distance())
 
-    # Timer fires every 1 second, calls get_distance, pushes result into `value`
+    # Timer fires every 0.1 second
     timer = gr.Timer(0.1)
     timer.tick(fn=get_distance, inputs=None, outputs=value)
 
