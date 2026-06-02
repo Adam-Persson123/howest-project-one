@@ -53,19 +53,20 @@ This is the feedback on my questions.
 
 - Feedback 3: No; the repository is just a generic example. 
 
+## Tour moment 1 (Date: 02/06/2026)
+
+Feedback:  
+
+More images with different backgrounds. 
+
+Model is currently overfitting
+
+More diversified data or the model needs to be in an enclosure, in which case data has to be collected from the enclosure. 
+
+Check samples of misqualified images. 
+
+
 ## Conversation 2 (Date: xx/xx/2026)
-
-Lecturer:
-
-Questions for this conversation:
-
-- Question 1: V
-
-This is the feedback on my questions.
-
-- Feedback 1: G
-
-## Conversation 3 (Date: xx/xx/2026)
 
 Lecturer:
 
