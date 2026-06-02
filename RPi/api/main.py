@@ -15,7 +15,7 @@ from fastapi import FastAPI
 _ENV_PATH = Path(__file__).resolve().parent / ".env"
 load_dotenv(_ENV_PATH)
 
-app = FastAPI(title="CTAI Kickoff API", version="0.1.0")
+app = FastAPI(title="Trash API", version="0.1.0")
 
 
 def _require_env(name: str) -> str:
