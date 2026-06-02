@@ -9,11 +9,11 @@ rgb = RGB()
 
 if __name__ == "__main__":
     worker = threading.Thread(target=main_loop, args=(rgb,), daemon=True)
-    worker.start()  # Starting main loop independently of Gradio
+    worker.start()  # Starting main loop in its own thread
 
     app = build_dashboard(rgb)
 
     try:
-        app.launch(server_name="0.0.0.0", server_port=7860, show_error=True, theme=gr.themes.Soft(primary_hue="green"))
+        app.launch(server_name="0.0.0.0", server_port=7860, show_error=True, theme=gr.themes.Soft(primary_hue="green", font=[gr.themes.GoogleFont("Inter")]))
     finally:
         GPIO.cleanup()
