@@ -10,7 +10,7 @@ ds = DistanceSensor()
 lcd = LCD("LCD")
 model = YOLO("ai/best.pt")
 
-session_start
+session_start = None
 
 def standby(rgb):
     rgb.set_color(0, 0, 0)
