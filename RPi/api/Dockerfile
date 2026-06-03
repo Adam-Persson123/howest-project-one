@@ -10,6 +10,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY main.py .
+COPY models/ ./models
+COPY repositories/ ./repositories
+COPY routers/ ./routers
+COPY database.py .
 
 ENV API_HOST=0.0.0.0
 ENV API_PORT=8000

@@ -1,21 +1,18 @@
-"""Kickoff FastAPI — health checks and PostgreSQL connectivity."""
-
 from __future__ import annotations
-
 import os
-from contextlib import contextmanager
+from contextlib import asynccontextmanager, contextmanager
 from pathlib import Path
 from typing import Any, Iterator
-
 import psycopg2
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from sqlmodel import SQLModel, create_engine
+from routers import klass, detection, log, session
+from database import start_db
 
 # Load RPi/api/.env (local uvicorn). In Docker, compose env_file wins (no override).
 _ENV_PATH = Path(__file__).resolve().parent / ".env"
 load_dotenv(_ENV_PATH)
-
-app = FastAPI(title="Trash API", version="0.1.0")
 
 
 def _require_env(name: str) -> str:
@@ -27,6 +24,16 @@ def _require_env(name: str) -> str:
 
 
 DATABASE_URL = _require_env("DATABASE_URL")
+engine = create_engine(DATABASE_URL)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    SQLModel.metadata.create_all(engine)
+    yield
+
+
+app = FastAPI(title="Trash API", version="0.1.0", lifespan=lifespan)
 
 
 @contextmanager
@@ -51,14 +58,21 @@ def db_health() -> dict[str, Any]:
             with conn.cursor() as cur:
                 cur.execute("SELECT 1;")
                 row = cur.fetchone()
-        return {
-            "status": "ok",
-            "database": "connected",
-            "check": row[0] if row else None,
-        }
+                return {
+                    "status": "ok",
+                    "database": "connected",
+                    "check": row[0] if row else None,
+                }
     except Exception as exc:
         return {
             "status": "error",
             "database": "disconnected",
             "detail": str(exc),
         }
+
+
+# Routers
+app.include_router(klass.router)
+app.include_router(detection.router)
+app.include_router(log.router)
+app.include_router(session.router)
