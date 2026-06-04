@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from sqlmodel import SQLModel, create_engine
 from routers import klass, detection, log, session
-from database import start_db
+from database import engine
 
 # Load RPi/api/.env (local uvicorn). In Docker, compose env_file wins (no override).
 _ENV_PATH = Path(__file__).resolve().parent / ".env"
@@ -24,7 +24,6 @@ def _require_env(name: str) -> str:
 
 
 DATABASE_URL = _require_env("DATABASE_URL")
-engine = create_engine(DATABASE_URL)
 
 
 @asynccontextmanager
