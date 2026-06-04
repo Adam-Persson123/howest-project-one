@@ -1,6 +1,8 @@
 import gradio as gr
 from hardware.lcd import LCD
 import pandas as pd
+from services.api_connect import load_logs
+from inputs.usb_camera import get_usb_frame
 
 lcd = LCD("LCD")
 rgb = None
@@ -12,7 +14,10 @@ def set_color(r, g, b):
     rgb.set_color(r, g, b)
 
 def get_logs():
-    pass
+    return load_logs()
+
+def shoot_picture():
+    return get_usb_frame()
 
 def build_debug_page(led):
     global rgb
@@ -37,7 +42,15 @@ def build_debug_page(led):
 
     with gr.Row():
         with gr.Column():
-            logs = gr.DataFrame(get_logs(), label="Logs")
+            refresh_btn = gr.Button("Refresh Logs")
+            logs = gr.DataFrame(label="Logs")
+            refresh_btn.click(fn=get_logs, inputs=None, outputs=logs)
 
         with gr.Column():
             gr.Markdown("### Camera")
+
+            # Timer fires every 0.1 second
+            timer = gr.Timer(0.1)
+            gr.Markdown("# Raspberry Pi 5 Camera")
+            output_img = gr.Image(label="Image", streaming=False)
+            timer.tick(fn=shoot_picture, outputs=output_img)
