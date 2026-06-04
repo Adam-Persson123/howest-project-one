@@ -68,12 +68,16 @@ Check samples of misqualified images.
 
 ## Conversation 2 (Date: xx/xx/2026)
 
-Lecturer:
+Lecturer: Tijn
 
 Questions for this conversation:
 
-- [x] Question 1: V
+- Question 1: How do I get the text right for lasercutting? 
+
+- Question 2: Do I need a breadboard and/or any other components for multiple 5v outputs? 
 
 This is the feedback on my questions.
 
-- Feedback 1: G
+- Feedback 1: The text can not be a text object. Fixed. 
+
+- Feedback 2: Soldering cables works fine for 5volt output. 
