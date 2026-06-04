@@ -41,25 +41,35 @@ def active(rgb):
                 # x1, y1, x2, y2 = box.xyxy[0]  # Bounding box coordinates
                 conf = box.conf[0]            # Confidence score
                 cls = box.cls[0]              # Class ID
-                class_name = model.names[int(cls)]
-                lcd.send_string(f"Class: {class_name}", 1)
-                lcd.send_string(f"Confidence: {conf}", 2)
-                # print(f"Class: {cls}, Confidence: {conf}")
+
+                color = None
                 match cls:
                     case 0:
                         rgb.set_color(255, 0, 0)
+                        color = "Red"
                     case 1:
                         rgb.set_color(0, 255, 0)
+                        color = "Green"
                     case 2:
                         rgb.set_color(0, 0, 255)
+                        color = "Blue"
                     case 3:
                         rgb.set_color(255, 255, 0)
+                        color = "Yellow"
                     case 4:
                         rgb.set_color(255, 0, 255)
+                        color = "Purple"
                     case 5:
                         rgb.set_color(0, 255, 255)
+                        color = "Cyan"
+
+                class_name = model.names[int(cls)]
+                lcd.send_string(f"{class_name}", 1)
+                lcd.send_string(f"{color} bin", 2)
 
                 create_new_detection(int(cls) + 1, int(conf * 100), datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                sleep(1)
+    
 
 def main_loop(rgb):
 
