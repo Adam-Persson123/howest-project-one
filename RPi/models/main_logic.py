@@ -5,6 +5,7 @@ from inputs.usb_camera import get_usb_frame
 from time import sleep
 from ultralytics import YOLO
 from datetime import datetime
+from services.api_connect import create_new_session, create_new_detection
 
 ds = DistanceSensor()
 lcd = LCD("LCD")
@@ -18,8 +19,8 @@ def standby(rgb):
     lcd.send_string(" ", 2)
 
     if session_start is not None:
-        session_end = datetime.now()
-        # send to backend
+        session_end = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        create_new_session(session_start, session_end)
 
 def welcome(rgb):
     rgb.set_color(255, 255, 255)
@@ -27,7 +28,7 @@ def welcome(rgb):
     lcd.send_string("Ready for trash", 2)
 
     global session_start
-    session_start = datetime.now()
+    session_start = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 def active(rgb):
 
@@ -52,13 +53,13 @@ def active(rgb):
                     case 2:
                         rgb.set_color(0, 0, 255)
                     case 3:
-                        rgb.set_color(255, 255, 255)
+                        rgb.set_color(255, 255, 0)
                     case 4:
                         rgb.set_color(255, 0, 255)
                     case 5:
                         rgb.set_color(0, 255, 255)
 
-                # Send to backend
+                create_new_detection(int(cls) + 1, int(conf * 100), datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 def main_loop(rgb):
 
