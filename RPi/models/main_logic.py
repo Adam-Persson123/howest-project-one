@@ -6,6 +6,7 @@ from time import sleep
 from ultralytics import YOLO
 from datetime import datetime
 from services.api_connect import create_new_session, create_new_detection
+from hardware.network import wait_for_host_interface_ips
 
 ds = DistanceSensor()
 lcd = LCD("LCD")
@@ -15,8 +16,9 @@ session_start = None
 
 def standby(rgb):
     rgb.set_color(0, 0, 0)
-    lcd.send_string(" ", 1)
-    lcd.send_string(" ", 2)
+
+    lcd.send_string(wait_for_host_interface_ips()[0], 1)
+    lcd.send_string(wait_for_host_interface_ips()[1], 2)
 
     if session_start is not None:
         session_end = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
