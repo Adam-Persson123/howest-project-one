@@ -29,7 +29,7 @@ def get_number_of_detections():
     counts = counts[["name", "Detections"]]
     counts.columns = ["Class", "Detections"]
     
-    fig = px.bar(counts, x="Class", y="Detections", title="Detections per Class")
+    fig = px.bar(counts, x="Class", y="Detections")
     return fig
 
 def build_data_page():
@@ -40,7 +40,7 @@ def build_data_page():
 
     with gr.Row():
         with gr.Column():
-            detections_plot = gr.Plot(label=None)
+            detections_plot = gr.Plot(label="Detections per Class")
             refresh_btn = gr.Button("Refresh")
             refresh_btn.click(fn=get_number_of_detections, inputs=None, outputs=detections_plot)
                     
