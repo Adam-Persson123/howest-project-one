@@ -28,7 +28,8 @@ def build_about_page():
         gr.Markdown("""
             ### Trash colors:
             - Yellow = Cardboard / paper
-            - Blue = Plastic
+            - Blue = Plastic packaging
+            - Cyan = Plastic bottles
             - Purple = Glass
             - Green = Organic
             - Red = Metal can
