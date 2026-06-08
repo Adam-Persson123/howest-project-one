@@ -2,6 +2,7 @@ import gradio as gr
 import hardware.ultrasonic as ultrasonic
 from services.api_connect import get_latest_detection, fetch_detection_data, fetch_class_data
 import pandas as pd
+import plotly.express as px
 
 sensor = ultrasonic.DistanceSensor()
 
@@ -17,17 +18,19 @@ def get_detection():
 def get_number_of_detections():
     df = fetch_detection_data()
     if df is None or df.empty:
-        return pd.DataFrame(columns=["Class", "Detections"])
+        return None
     
     class_df = fetch_class_data()
     if class_df is None or class_df.empty:
-        return pd.DataFrame(columns=["Class", "Detections"])
+        return None
 
     counts = df.groupby("class_id").size().reset_index(name="Detections")
     counts = counts.merge(class_df[["id", "name"]], left_on="class_id", right_on="id")
     counts = counts[["name", "Detections"]]
     counts.columns = ["Class", "Detections"]
-    return counts
+    
+    fig = px.bar(counts, x="Class", y="Detections", title="Detections per Class")
+    return fig
 
 def build_data_page():
     gr.Markdown("## Data")
@@ -37,9 +40,10 @@ def build_data_page():
 
     with gr.Row():
         with gr.Column():
-            detections_table = gr.DataFrame(label="Detections per Class")
+            detections_plot = gr.Plot(label=None)
             refresh_btn = gr.Button("Refresh")
-            refresh_btn.click(fn=get_number_of_detections, inputs=None, outputs=detections_table)
+            refresh_btn.click(fn=get_number_of_detections, inputs=None, outputs=detections_plot)
+                    
         with gr.Column():
             pass
         
