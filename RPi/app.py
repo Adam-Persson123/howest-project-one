@@ -14,6 +14,6 @@ if __name__ == "__main__":
     app = build_dashboard(rgb)
 
     try:
-        app.launch(server_name="0.0.0.0", server_port=7860, show_error=True, theme=gr.themes.Soft(primary_hue="green", font=[gr.themes.GoogleFont("Inter")]))
+        app.launch(server_name="0.0.0.0", server_port=7860, show_error=True, theme=gr.themes.Soft(primary_hue="green", font=[gr.themes.GoogleFont("Inter")], text_size="lg"))
     finally:
         GPIO.cleanup()
