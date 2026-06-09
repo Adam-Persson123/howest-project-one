@@ -72,12 +72,12 @@ def active(rgb):
                 lcd.send_string(f"{color} bin", 2)
 
                 create_new_detection(int(cls) + 1, int(conf * 100), datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                sleep(1)
+                # sleep(1)
     
 
 def main_loop(rgb):
 
-    cooldown = COOLDOWN
+    cooldown = 0
 
     standby_flag = False
     welcome_flag = False
@@ -99,7 +99,7 @@ def main_loop(rgb):
                         welcome_flag = False
                         standby(rgb)
             else:
-                cooldown = 5
+                cooldown = COOLDOWN
                 standby_flag = False
 
                 if welcome_flag == False:
