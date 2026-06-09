@@ -55,7 +55,9 @@ This is the feedback on my questions.
 
 ## Tour moment 1 (Date: 02/06/2026)
 
-Feedback:  
+Lecturers: Marie Dewitte, Dieter Roobrouck, Frederiek Berthier, Christophe Laprudence
+
+Feedback: 
 
 More images with different backgrounds. 
 
@@ -66,9 +68,9 @@ More diversified data or the model needs to be in an enclosure, in which case da
 Check samples of misqualified images. 
 
 
-## Conversation 2 (Date: xx/xx/2026)
+## Conversation 2 (Date: 04/06/2026)
 
-Lecturer: Tijn
+Lecturer: Tjin
 
 Questions for this conversation:
 
