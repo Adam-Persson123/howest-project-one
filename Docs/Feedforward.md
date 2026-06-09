@@ -53,6 +53,7 @@ This is the feedback on my questions.
 
 - Feedback 3: No; the repository is just a generic example. 
 
+
 ## Tour moment 1 (Date: 02/06/2026)
 
 Lecturers: Marie Dewitte, Dieter Roobrouck, Frederiek Berthier, Christophe Laprudence
@@ -83,3 +84,24 @@ This is the feedback on my questions.
 - Feedback 1: The text can not be a text object. Fixed. 
 
 - Feedback 2: Soldering cables works fine for 5volt output. 
+
+
+## Tour moment 2 (Date: 09/06/2026)
+
+Lecturers: Nathan Segers, Tijn Veraghtert, Frederik Waeyaert
+
+Feedback: 
+
+Put camera feed in operating page.
+ 
+How much trash was of different kinds? - Use % (Pie chart)
+ 
+Add colors to the about page (to the description of trash colors).
+ 
+Different configurations based on country. 
+ 
+Add extra images from random things to the dataset. 
+ 
+Threshold can give different results. 
+ 
+Bigger font on the pages. Add example pictures. 
