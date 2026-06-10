@@ -32,6 +32,15 @@ def get_number_of_detections():
     fig = px.bar(counts, x="Class", y="Detections")
     return fig
 
+_current_image = None
+
+def update_image(image):
+    global _current_image
+    _current_image = image
+
+def _get_current_image():
+    return _current_image
+
 def build_data_page():
     gr.Markdown("## Data")
     with gr.Row():
@@ -46,8 +55,15 @@ def build_data_page():
                     
         with gr.Column():
             pass
+
+    with gr.Row():
+            gr.Markdown("### Camera")
+
+            gr.Markdown("# Raspberry Pi 5 Camera")
+            output_img = gr.Image(label="Image", streaming=False)
         
     # Timer fires every 1 second
     timer = gr.Timer(1)
     timer.tick(fn=get_distance, inputs=None, outputs=value)
     timer.tick(fn=get_detection, outputs=latest_detection)
+    timer.tick(fn=_get_current_image, inputs=None, outputs=output_img)
