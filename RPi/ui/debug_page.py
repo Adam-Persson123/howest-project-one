@@ -3,9 +3,14 @@ from hardware.lcd import LCD
 import pandas as pd
 from services.api_connect import load_logs
 from inputs.usb_camera import get_usb_frame
+import hardware.ultrasonic as ultrasonic
 
+sensor = ultrasonic.DistanceSensor()
 lcd = LCD("LCD")
 rgb = None
+
+def get_distance() -> str:
+    return str(sensor.getDistance())
 
 def send_message(text, line):
     lcd.send_string(text, line)
@@ -26,6 +31,8 @@ def build_debug_page(led):
 
     with gr.Row():
         with gr.Column():
+            gr.Markdown("### Distance Sensor")
+            value = gr.Textbox(label="Ultrasonic value", value=get_distance())
             gr.Markdown("### LCD")
             text = gr.Textbox(label="Text")
             line = gr.Radio(label="Line", choices=[1, 2], value=1)
@@ -54,3 +61,4 @@ def build_debug_page(led):
             gr.Markdown("# Raspberry Pi 5 Camera")
             output_img = gr.Image(label="Image", streaming=False)
             timer.tick(fn=shoot_picture, outputs=output_img)
+            timer.tick(fn=get_distance, inputs=None, outputs=value)

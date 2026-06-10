@@ -1,13 +1,7 @@
 import gradio as gr
-import hardware.ultrasonic as ultrasonic
 from services.api_connect import get_latest_detection, fetch_detection_data, fetch_class_data
 import pandas as pd
 import plotly.express as px
-
-sensor = ultrasonic.DistanceSensor()
-
-def get_distance() -> str:
-    return str(sensor.getDistance())
 
 def get_detection():
     result = get_latest_detection()
@@ -44,7 +38,6 @@ def _get_current_image():
 def build_data_page():
     gr.Markdown("## Data")
     with gr.Row():
-        value = gr.Textbox(label="Ultrasonic value", value=get_distance())
         latest_detection = gr.DataFrame(label="Latest AI detection")
 
     with gr.Row():
@@ -57,13 +50,11 @@ def build_data_page():
             pass
 
     with gr.Row():
-            gr.Markdown("### Camera")
-
-            gr.Markdown("# Raspberry Pi 5 Camera")
-            output_img = gr.Image(label="Image", streaming=False)
+        gr.Markdown("### Camera")
+    with gr.Row():
+        output_img = gr.Image(label="Image", streaming=False)
         
     # Timer fires every 1 second
     timer = gr.Timer(1)
-    timer.tick(fn=get_distance, inputs=None, outputs=value)
     timer.tick(fn=get_detection, outputs=latest_detection)
     timer.tick(fn=_get_current_image, inputs=None, outputs=output_img)
