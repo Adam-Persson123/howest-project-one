@@ -7,6 +7,8 @@ from ultralytics import YOLO
 from datetime import datetime
 from services.api_connect import create_new_session, create_new_detection
 from hardware.network import wait_for_host_interface_ips
+from ui.data_page import update_image
+import cv2
 
 ds = DistanceSensor()
 lcd = LCD("LCD")
@@ -38,11 +40,16 @@ def active(rgb):
 
     frame = get_usb_frame()
     if frame is not None:
-        results = model(frame)
+        frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        results = model(frame_bgr)
+
+        annotated = results[0].plot()
+        annotated_rgb = annotated[:, :, ::-1]
+        update_image(annotated_rgb)
+
         for result in results:
             boxes = result.boxes  # Bounding box outputs
             for box in boxes:
-                # x1, y1, x2, y2 = box.xyxy[0]  # Bounding box coordinates
                 conf = box.conf[0]            # Confidence score
                 cls = box.cls[0]              # Class ID
 
@@ -72,6 +79,7 @@ def active(rgb):
                 lcd.send_string(f"{color} bin", 2)
 
                 create_new_detection(int(cls) + 1, int(conf * 100), datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
                 # sleep(1)
     
 
