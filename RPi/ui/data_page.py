@@ -33,15 +33,6 @@ def get_pie_plot():
     counts = get_number_of_detections()
     return px.pie(counts, values="Detections", names="Class")
 
-_current_image = None
-
-def update_image(image):
-    global _current_image
-    _current_image = image
-
-def _get_current_image():
-    return _current_image
-
 def build_data_page():
     gr.Markdown("## Data")
     with gr.Row():
@@ -58,13 +49,7 @@ def build_data_page():
         refresh_btn = gr.Button("Refresh")
         refresh_btn.click(fn=get_bar_plot, inputs=None, outputs=detections_plot)
         refresh_btn.click(fn=get_pie_plot, inputs=None, outputs=detections_pie)
-
-    with gr.Row():
-        gr.Markdown("### Camera")
-    with gr.Row():
-        output_img = gr.Image(label="Image", streaming=False)
         
     # Timer fires every 1 second
     timer = gr.Timer(1)
     timer.tick(fn=get_detection, outputs=latest_detection)
-    timer.tick(fn=_get_current_image, inputs=None, outputs=output_img)

@@ -7,7 +7,7 @@ from ultralytics import YOLO
 from datetime import datetime
 from services.api_connect import create_new_session, create_new_detection
 from hardware.network import wait_for_host_interface_ips
-from ui.data_page import update_image
+from ui.operating_page import update_image
 import cv2
 
 ds = DistanceSensor()
