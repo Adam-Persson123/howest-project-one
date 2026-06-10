@@ -16,7 +16,9 @@ model = YOLO("ai/best.pt")
 
 session_start = None
 
-COOLDOWN = 4
+COOLDOWN = 4 # Cooldown in seconds before standby after distance from ultrasonic sensor > DISTANCE
+DISTANCE = 50
+UPDATE_INTERVAL = 0.5
 
 def standby(rgb):
     rgb.set_color(0, 0, 0)
@@ -98,7 +100,7 @@ def main_loop(rgb):
             if distance is None:
                 distance = 1000
 
-            if distance > 50:
+            if distance > DISTANCE:
                 if cooldown > 0:
                     cooldown = cooldown - 1
                 if cooldown == 0:
@@ -107,7 +109,7 @@ def main_loop(rgb):
                         welcome_flag = False
                         standby(rgb)
             else:
-                cooldown = COOLDOWN
+                cooldown = COOLDOWN / UPDATE_INTERVAL
                 standby_flag = False
 
                 if welcome_flag == False:
@@ -117,7 +119,7 @@ def main_loop(rgb):
             if cooldown != 0:
                 active(rgb)
 
-            sleep(1)
+            sleep(UPDATE_INTERVAL)
 
     except Exception as e:
         print(f"Main loop error: {e}")
