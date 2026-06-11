@@ -61,7 +61,7 @@ def fetch_session_data():
         print(f"Request error occurred: {e}")
     except ValueError as e:
         print(f"Failed to decode JSON: {e}")
-    return None
+    return Noned
 
 #######################
 
@@ -171,6 +171,20 @@ def delete_detection(id):
         print(f"Failed to decode JSON: {e}")
     return None
 
+def delete_all_detections():
+    global detection_url
+    try:
+        r = httpx.delete(f"{detection_url}")
+        r.raise_for_status()  
+        return r.json()
+    except httpx.HTTPStatusError as e:
+        print(f"HTTP error occurred: {e}")
+    except httpx.RequestError as e:
+        print(f"Request error occurred: {e}")
+    except ValueError as e:
+        print(f"Failed to decode JSON: {e}")
+    return None
+
 def delete_log(id):
     global log_url
     try:
@@ -189,6 +203,20 @@ def delete_session(id):
     global session_url
     try:
         r = httpx.delete(f"{session_url}{id}")
+        r.raise_for_status()  
+        return r.json()
+    except httpx.HTTPStatusError as e:
+        print(f"HTTP error occurred: {e}")
+    except httpx.RequestError as e:
+        print(f"Request error occurred: {e}")
+    except ValueError as e:
+        print(f"Failed to decode JSON: {e}")
+    return None
+
+def delete_all_sessions():
+    global session_url
+    try:
+        r = httpx.delete(f"{session_url}")
         r.raise_for_status()  
         return r.json()
     except httpx.HTTPStatusError as e:
