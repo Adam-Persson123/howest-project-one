@@ -43,6 +43,19 @@ def get_number_of_sessions():
         return None
     return len(df)
 
+def get_number_of_detections_as_int():
+    df = fetch_detection_data()
+    if df is None or df.empty:
+        return None
+    return len(df)
+
+def get_detections_per_session():
+    detections = get_number_of_detections_as_int()
+    sessions = get_number_of_sessions()
+    if detections is None or sessions is None:
+        return None
+    return detections / sessions
+
 def build_data_page():
     gr.Markdown("## Data")
 
@@ -50,7 +63,10 @@ def build_data_page():
         with gr.Column():
             latest_detection = gr.DataFrame(label="Latest AI detection")
         with gr.Column():
-            number_of_sessions = gr.Textbox(label="Number of sessions", value=get_number_of_sessions(), interactive=False)
+            with gr.Row():
+                number_of_detections = gr.Textbox(label="Number of detections", value=get_number_of_detections_as_int(), interactive=False)
+                number_of_sessions = gr.Textbox(label="Number of sessions", value=get_number_of_sessions(), interactive=False)
+                detections_per_session = gr.Textbox(label="Avg. detections per session", value=get_detections_per_session(), interactive=False)
 
     with gr.Row():
         with gr.Column():
