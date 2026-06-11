@@ -97,6 +97,8 @@ def main_loop(rgb):
     standby_flag = False
     welcome_flag = False
 
+    last_distance = 1000
+
     try:
         while True:
 
@@ -114,15 +116,18 @@ def main_loop(rgb):
                         welcome_flag = False
                         standby(rgb)
             else:
-                cooldown = COOLDOWN / UPDATE_INTERVAL
-                standby_flag = False
+                if last_distance < DISTANCE:
+                    cooldown = COOLDOWN / UPDATE_INTERVAL
+                    standby_flag = False
 
-                if welcome_flag == False:
-                    welcome(rgb)
-                    welcome_flag = True
+                    if welcome_flag == False:
+                        welcome(rgb)
+                        welcome_flag = True
 
             if cooldown != 0:
                 active(rgb)
+
+            last_distance = distance
 
             sleep(UPDATE_INTERVAL)
 
