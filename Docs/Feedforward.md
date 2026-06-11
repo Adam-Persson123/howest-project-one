@@ -105,3 +105,16 @@ Add extra images from random things to the dataset.
 Threshold can give different results. 
  
 Bigger font on the pages. Add example pictures. 
+
+
+## Conversation 3 (Date: 11/06/2026)
+
+Lecturer: Nathan Segers
+
+Questions for this conversation:
+
+- Question 1: How could I make the interface for changing colors and bins? 
+
+This is the feedback on my questions.
+
+- Feedback 1: Make a config page, options for assigning bins to classes, options for assigning colors to bins. 
