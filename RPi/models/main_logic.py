@@ -5,7 +5,7 @@ from inputs.usb_camera import get_usb_frame
 from time import sleep
 from ultralytics import YOLO
 from datetime import datetime
-from services.api_connect import create_new_session, create_new_detection
+from services.api_connect import create_new_session, create_new_detection, create_new_log
 from hardware.network import wait_for_host_interface_ips
 from ui.operating_page import update_image
 import cv2
@@ -26,6 +26,8 @@ def standby(rgb):
     lcd.send_string(wait_for_host_interface_ips()[0], 1)
     lcd.send_string(wait_for_host_interface_ips()[1], 2)
 
+    create_new_log("info", "Standby", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+
     if session_start is not None:
         session_end = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         create_new_session(session_start, session_end)
@@ -34,6 +36,8 @@ def welcome(rgb):
     rgb.set_color(255, 255, 255)
     lcd.send_string("Welcome!", 1)
     lcd.send_string("Ready for trash", 2)
+
+    create_new_log("info", "Ready", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
     global session_start
     session_start = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -123,5 +127,6 @@ def main_loop(rgb):
 
     except Exception as e:
         print(f"Main loop error: {e}")
+        create_new_log("error", f"Main loop error: {e}", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     finally:
         GPIO.cleanup()
