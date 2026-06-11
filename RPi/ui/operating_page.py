@@ -4,6 +4,7 @@ from services.api_connect import delete_all_sessions, delete_all_detections
 
 def poweroff():
     request_sudo_poweroff()
+    gr.Info("Powering off device...")
 
 _current_image = None
 
@@ -34,9 +35,9 @@ def build_operating_page():
                 gr.Markdown("### Sessions")
 
     with gr.Row():
-        poweroff_button = gr.Button("Poweroff")
+        poweroff_button = gr.Button("Poweroff device", variant="stop")
         poweroff_button.click(fn=poweroff, outputs=None)
-        reset_button = gr.Button("Reset")
+        reset_button = gr.Button("Reset sessions and detections", variant="stop")
         reset_button.click(fn=reset_data, outputs=None)
 
     # Timer fires every 1 second
