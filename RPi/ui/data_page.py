@@ -27,10 +27,14 @@ def get_number_of_detections():
 
 def get_bar_plot():
     counts = get_number_of_detections()
+    if counts is None:
+        return None
     return px.bar(counts, x="Class", y="Detections")
 
 def get_pie_plot():
     counts = get_number_of_detections()
+    if counts is None:
+        return None
     return px.pie(counts, values="Detections", names="Class")
 
 def get_number_of_sessions():
@@ -46,7 +50,7 @@ def build_data_page():
         with gr.Column():
             latest_detection = gr.DataFrame(label="Latest AI detection")
         with gr.Column():
-            number_of_sessions = gr.Textbox(label="Number of sessions", value=get_number_of_sessions())
+            number_of_sessions = gr.Textbox(label="Number of sessions", value=get_number_of_sessions(), interactive=False)
 
     with gr.Row():
         with gr.Column():
