@@ -20,19 +20,22 @@ def reset_data():
     delete_all_detections()
     gr.Info("Sessions and detections have been reset.")
 
+def update_country(country):
+    gr.Info(f"Country has been set to {country}")
+
 def build_operating_page():
     gr.Markdown("## Operating")
 
     with gr.Row():
         with gr.Column():
             with gr.Row():
-                gr.Markdown("### Camera")
-            with gr.Row():
-                output_img = gr.Image(label="Image", streaming=False)
+                output_img = gr.Image(label="Camera", streaming=False)
 
         with gr.Column():
             with gr.Row():
-                gr.Markdown("### Sessions")
+                country_dropdown = gr.Dropdown(choices=["Not specified", "Belgium"], label="Country")
+                country_dropdown.change(fn=update_country, inputs=country_dropdown, outputs=None)
+
 
     with gr.Row():
         poweroff_button = gr.Button("Poweroff device", variant="stop")
