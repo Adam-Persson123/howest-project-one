@@ -40,23 +40,31 @@ def build_about_page():
         with gr.Column():
             gr.Markdown("## How does it work?")
             gr.Markdown("""
-                <span style='font-size: 40px; vertical-align: middle; color: #22C55E'>⓵</span>
-                <span style='vertical-align: middle;'> Walk up to the device (the ultrasonic sensor will detect that someone is near).</span>
+                <div style='overflow: hidden; height: 60px'>
+                    <span style='font-size: 40px; vertical-align: middle; color: #22C55E;'>⓵</span>
+                    <span style='vertical-align: middle;'> Walk up to the device (the ultrasonic sensor will detect that someone is near).</span>
+                </div>
                 """)
             
             gr.Markdown("""
-                <span style='font-size: 40px; vertical-align: middle; color: #22C55E'>⓶</span>
-                <span style='vertical-align: middle;'> Place your trash on the flat surface on the device.</span>
+                <div style='overflow: hidden; height: 60px'>
+                    <span style='font-size: 40px; vertical-align: middle; color: #22C55E'>⓶</span>
+                    <span style='vertical-align: middle;'> Place your trash on the flat surface on the device.</span>
+                </div>
                 """)
 
             gr.Markdown("""
-                <span style='font-size: 40px; vertical-align: middle; color: #22C55E'>⓷</span>
-                <span style='vertical-align: middle;'> The device will detect what kind of trash it is.</span>
+                <div style='overflow: hidden; height: 60px'>
+                    <span style='font-size: 40px; vertical-align: middle; color: #22C55E'>⓷</span>
+                    <span style='vertical-align: middle;'> The device will detect what kind of trash it is.</span>
+                </div>
                 """)
 
             gr.Markdown("""
-                <span style='font-size: 40px; vertical-align: middle; color: #22C55E'>⓸</span>
-                <span style='vertical-align: middle;'> The RGB LED light will light up in a specific color, indicating where you should throw it.</span>
+                <div style='overflow: hidden; height: 60px'>
+                    <span style='font-size: 40px; vertical-align: middle; color: #22C55E'>⓸</span>
+                    <span style='vertical-align: middle;'> The RGB LED light will light up in a specific color, indicating where you should throw it.</span>
+                </div>
                 """)
 
         with gr.Column():
