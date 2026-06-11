@@ -1,5 +1,5 @@
 import gradio as gr
-from services.api_connect import get_latest_detection, fetch_detection_data, fetch_class_data
+from services.api_connect import get_latest_detection, fetch_detection_data, fetch_class_data, load_sessions
 import pandas as pd
 import plotly.express as px
 
@@ -33,10 +33,20 @@ def get_pie_plot():
     counts = get_number_of_detections()
     return px.pie(counts, values="Detections", names="Class")
 
+def get_number_of_sessions():
+    df = load_sessions()
+    if df is None or df.empty:
+        return None
+    return len(df)
+
 def build_data_page():
     gr.Markdown("## Data")
+
     with gr.Row():
-        latest_detection = gr.DataFrame(label="Latest AI detection")
+        with gr.Column():
+            latest_detection = gr.DataFrame(label="Latest AI detection")
+        with gr.Column():
+            number_of_sessions = gr.Textbox(label="Number of sessions", value=get_number_of_sessions())
 
     with gr.Row():
         with gr.Column():
