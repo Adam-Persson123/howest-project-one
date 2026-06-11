@@ -25,17 +25,26 @@ def get_number_of_detections():
     
     return counts
 
+CLASS_COLORS = {
+    "Cardboard": "yellow",
+    "Plastic packaging": "blue",
+    "Plastic bottle": "cyan",
+    "Glass jar": "purple",
+    "Organic": "green",
+    "Metal can": "red",
+}
+
 def get_bar_plot():
     counts = get_number_of_detections()
     if counts is None:
         return None
-    return px.bar(counts, x="Class", y="Detections")
+    return px.bar(counts, x="Class", y="Detections", color="Class", color_discrete_map=CLASS_COLORS)
 
 def get_pie_plot():
     counts = get_number_of_detections()
     if counts is None:
         return None
-    return px.pie(counts, values="Detections", names="Class")
+    return px.pie(counts, values="Detections", names="Class", color="Class", color_discrete_map=CLASS_COLORS)
 
 def get_number_of_sessions():
     df = load_sessions()
@@ -79,6 +88,10 @@ def build_data_page():
         refresh_btn = gr.Button("Refresh")
         refresh_btn.click(fn=get_bar_plot, inputs=None, outputs=detections_plot)
         refresh_btn.click(fn=get_pie_plot, inputs=None, outputs=detections_pie)
+        refresh_btn.click(fn=get_detection, inputs=None, outputs=latest_detection)
+        refresh_btn.click(fn=get_number_of_detections_as_int, inputs=None, outputs=number_of_detections)
+        refresh_btn.click(fn=get_number_of_sessions, inputs=None, outputs=number_of_sessions)
+        refresh_btn.click(fn=get_detections_per_session, inputs=None, outputs=detections_per_session)
         
     # Timer fires every 1 second
     timer = gr.Timer(1)
