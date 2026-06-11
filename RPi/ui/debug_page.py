@@ -19,7 +19,9 @@ def set_color(r, g, b):
     rgb.set_color(r, g, b)
 
 def get_logs():
-    return load_logs()
+    logs = load_logs()
+    reversed_order = logs[::-1]
+    return reversed_order
 
 def shoot_picture():
     return get_usb_frame()
@@ -31,15 +33,12 @@ def build_debug_page(led):
 
     with gr.Row():
         with gr.Column():
-            gr.Markdown("### Distance Sensor")
-            value = gr.Textbox(label="Ultrasonic value", value=get_distance())
             gr.Markdown("### LCD")
             text = gr.Textbox(label="Text")
             line = gr.Radio(label="Line", choices=[1, 2], value=1)
             button = gr.Button("Send to LCD Display")
             button.click(fn=send_message, inputs=[text, line], outputs=None)
 
-        with gr.Column():
             gr.Markdown("### RGB")
             r = gr.Slider(minimum=0, maximum=255, step=1, label="R")
             g = gr.Slider(minimum=0, maximum=255, step=1, label="G")
@@ -47,18 +46,24 @@ def build_debug_page(led):
             button = gr.Button("Set color of RGB LED")
             button.click(fn=set_color, inputs=[r, g, b], outputs=None)
 
+        with gr.Column():
+            gr.Markdown("### Distance Sensor")
+            value = gr.Textbox(label="Ultrasonic value", value=get_distance())
+
+            gr.Markdown("### Camera")
+            output_img = gr.Image(label="Image", streaming=False)
+
     with gr.Row():
         with gr.Column():
+            gr.Markdown(height=10)
+            gr.Markdown("---")
+            gr.Markdown(height=10)
+            gr.Markdown("### Logs")
             refresh_btn = gr.Button("Refresh Logs")
             logs = gr.DataFrame(label="Logs")
             refresh_btn.click(fn=get_logs, inputs=None, outputs=logs)
 
-        with gr.Column():
-            gr.Markdown("### Camera")
-
-            # Timer fires every 0.1 second
-            timer = gr.Timer(0.1)
-            gr.Markdown("# Raspberry Pi 5 Camera")
-            output_img = gr.Image(label="Image", streaming=False)
-            timer.tick(fn=shoot_picture, outputs=output_img)
-            timer.tick(fn=get_distance, inputs=None, outputs=value)
+    # Timer fires every 0.1 second
+    timer = gr.Timer(0.1)
+    timer.tick(fn=shoot_picture, outputs=output_img)
+    timer.tick(fn=get_distance, inputs=None, outputs=value)
