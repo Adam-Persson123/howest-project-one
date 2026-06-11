@@ -58,6 +58,17 @@ async def delete_session(
     return result
 
 
+@router.delete("/", response_model=List[SessionRead])
+async def delete_sessions(repo: Annotated[SessionRepository, Depends(get_session_repository)]):
+    '''
+    Delete all sessions
+    '''
+    result = repo.delete_all()
+    if not result:
+        raise HTTPException(status_code=404, detail="No sessions found")
+    return result
+
+
 @router.put("/{id}", response_model=SessionRead)
 async def update_session(
     id: int,

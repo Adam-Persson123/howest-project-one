@@ -31,6 +31,14 @@ class SessionRepository:
             return existing
         return None
 
+    def delete_all(self) -> list[Session]:
+        statement = select(Session)
+        items = self.session.exec(statement).all()
+        for item in items:
+            self.session.delete(item)
+        self.session.commit()
+        return items
+
     def update(self, session_id: int, payload: SessionCreate) -> Session:
         session = self.session.get(Session, session_id)
         if not session:

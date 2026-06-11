@@ -66,6 +66,17 @@ async def delete_detection(
     return result
 
 
+@router.delete("/", response_model=List[DetectionRead])
+async def delete_detections(repo: Annotated[DetectionRepository, Depends(get_detection_repository)]):
+    '''
+    Delete all detections
+    '''
+    result = repo.delete_all()
+    if not result:
+        raise HTTPException(status_code=404, detail="No detections found")
+    return result
+
+
 @router.put("/{id}", response_model=DetectionRead)
 async def update_detection(
     id: int,

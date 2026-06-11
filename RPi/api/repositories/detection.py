@@ -37,6 +37,14 @@ class DetectionRepository:
             return existing
         return None
 
+    def delete_all(self) -> list[Detection]:
+        statement = select(Detection)
+        items = self.session.exec(statement).all()
+        for item in items:
+            self.session.delete(item)
+        self.session.commit()
+        return items
+
     def update(self, detection_id: int, payload: DetectionCreate) -> Detection:
         detection = self.session.get(Detection, detection_id)
         if not detection:
