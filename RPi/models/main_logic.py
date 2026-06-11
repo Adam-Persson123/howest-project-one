@@ -19,6 +19,7 @@ session_start = None
 COOLDOWN = 4 # Cooldown in seconds before standby after distance from ultrasonic sensor > DISTANCE
 DISTANCE = 50
 UPDATE_INTERVAL = 0.5
+TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 def standby(rgb):
     rgb.set_color(0, 0, 0)
@@ -26,10 +27,10 @@ def standby(rgb):
     lcd.send_string(wait_for_host_interface_ips()[0], 1)
     lcd.send_string(wait_for_host_interface_ips()[1], 2)
 
-    create_new_log("info", "Standby", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    create_new_log("info", "Standby", datetime.now().strftime(TIME_FORMAT))
 
     if session_start is not None:
-        session_end = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        session_end = datetime.now().strftime(TIME_FORMAT)
         create_new_session(session_start, session_end)
 
 def welcome(rgb):
@@ -37,10 +38,10 @@ def welcome(rgb):
     lcd.send_string("Welcome!", 1)
     lcd.send_string("Ready for trash", 2)
 
-    create_new_log("info", "Ready", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    create_new_log("info", "Ready", datetime.now().strftime(TIME_FORMAT))
 
     global session_start
-    session_start = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    session_start = datetime.now().strftime(TIME_FORMAT)
 
 def active(rgb):
 
@@ -84,7 +85,7 @@ def active(rgb):
                 lcd.send_string(f"{class_name}", 1)
                 lcd.send_string(f"{color} bin", 2)
 
-                create_new_detection(int(cls) + 1, int(conf * 100), datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                create_new_detection(int(cls) + 1, int(conf * 100), datetime.now().strftime(TIME_FORMAT))
 
                 # sleep(1)
     
@@ -127,6 +128,6 @@ def main_loop(rgb):
 
     except Exception as e:
         print(f"Main loop error: {e}")
-        create_new_log("error", f"Main loop error: {e}", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        create_new_log("error", f"Main loop error: {e}", datetime.now().strftime(TIME_FORMAT))
     finally:
         GPIO.cleanup()
