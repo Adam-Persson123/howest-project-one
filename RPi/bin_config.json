@@ -1,0 +1,18 @@
+{
+  "bins": {
+    "cardboard": "#8B4513",
+    "organic": "#4CAF50",
+    "plastic": "#FFD700",
+    "pant": "#FF9800",
+    "pmd": "#2196F3",
+    "glass": "#00ffff"
+  },
+  "class_assignments": {
+    "Cardboard": "cardboard",
+    "Plastic packaging": "plastic",
+    "Plastic bottle": "pant",
+    "Glass jar": "glass",
+    "Organic": "organic",
+    "Metal can": "pant"
+  }
+}

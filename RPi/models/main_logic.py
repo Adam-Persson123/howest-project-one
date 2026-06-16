@@ -8,6 +8,7 @@ from datetime import datetime
 from services.api_connect import create_new_session, create_new_detection, create_new_log
 from hardware.network import wait_for_host_interface_ips
 from ui.operating_page import update_image
+from services.bin_manager import get_color_for_class, get_bin_for_class
 import cv2
 
 ds = DistanceSensor()
@@ -16,10 +17,13 @@ model = YOLO("ai/best.pt")
 
 session_start = None
 
-COOLDOWN = 4 # Cooldown in seconds before standby after distance from ultrasonic sensor > DISTANCE
+COOLDOWN = 2
 DISTANCE = 50
-UPDATE_INTERVAL = 0.5
+UPDATE_INTERVAL = 0.1
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+
+def hex_color_to_rgb(color):
+    return int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
 
 def standby(rgb):
     rgb.set_color(0, 0, 0)
@@ -49,45 +53,38 @@ def active(rgb):
     if frame is not None:
         frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
         results = model(frame_bgr)
+        result = None
+        if results is not None:
+            result = results[0]
 
-        annotated = results[0].plot()
+        # Send image to gradio
+        annotated = result.plot()
         annotated_rgb = annotated[:, :, ::-1]
         update_image(annotated_rgb)
 
-        for result in results:
-            boxes = result.boxes  # Bounding box outputs
-            for box in boxes:
-                conf = box.conf[0]            # Confidence score
-                cls = box.cls[0]              # Class ID
+        boxes = result.boxes  # Bounding box outputs
+        for box in boxes:
+            conf = box.conf[0]            # Confidence score
+            cls = box.cls[0]              # Class ID
 
-                color = None
-                match cls:
-                    case 0:
-                        rgb.set_color(255, 255, 0)
-                        color = "Yellow"
-                    case 1:
-                        rgb.set_color(255, 0, 255)
-                        color = "Purple"
-                    case 2:
-                        rgb.set_color(255, 0, 0)
-                        color = "Red"
-                    case 3:
-                        rgb.set_color(0, 255, 0)
-                        color = "Green"
-                    case 4:
-                        rgb.set_color(0, 255, 255)
-                        color = "Cyan"
-                    case 5:
-                        rgb.set_color(0, 0, 255)
-                        color = "Blue"
+            class_name = model.names[int(cls)]
 
-                class_name = model.names[int(cls)]
-                lcd.send_string(f"{class_name}", 1)
-                lcd.send_string(f"{color} bin", 2)
+            bin_name = get_bin_for_class(class_name)
+            bin_name = bin_name.capitalize()
+            color = get_color_for_class(class_name)
 
-                create_new_detection(int(cls) + 1, int(conf * 100), datetime.now().strftime(TIME_FORMAT))
+            lcd.send_string(f"{class_name}", 1)
+            lcd.send_string(f"{bin_name}", 2)
 
-                # sleep(1)
+            rgb_color = hex_color_to_rgb(color)
+            rgb.set_color(rgb_color[0], rgb_color[1], rgb_color[2])
+
+            create_new_detection(int(cls) + 1, int(conf * 100), datetime.now().strftime(TIME_FORMAT))
+
+            # if there are more than one object detected, wait
+            if len(boxes) > 1:
+                sleep(0.5)
+                print("More than one object detected. Waiting 0.5 seconds before next update...")
     
 
 def main_loop(rgb):
@@ -130,6 +127,7 @@ def main_loop(rgb):
             last_distance = distance
 
             sleep(UPDATE_INTERVAL)
+
 
     except Exception as e:
         print(f"Main loop error: {e}")
