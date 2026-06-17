@@ -86,6 +86,9 @@ def active(rgb):
             bin_name = bin_name.capitalize()
             color = get_color_for_class(class_name)
 
+            if class_name == "Plastic packaging":
+                class_name = "Plastic package"
+
             lcd.send_string(f"{class_name}", 1)
             lcd.send_string(f"{bin_name}", 2)
 
