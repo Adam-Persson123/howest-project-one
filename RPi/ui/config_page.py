@@ -61,10 +61,10 @@ def _bins_html(config: dict) -> str:
     for name, color in bins.items():
         rows += f"""
         <tr>
-          <td style="padding:9px 18px;border-bottom:1px solid #eee;font-weight:600;font-size:.95em;">
+          <td style="padding:9px 18px;border:1px solid #eee;font-weight:600;font-size:.95em;">
             {name}
           </td>
-          <td style="padding:9px 18px;border-bottom:1px solid #eee;">
+          <td style="padding:9px 18px;border:1px solid #eee;">
             <div style="display:flex;align-items:center;gap:10px;">
               <div style="width:26px;height:26px;background:{color};border-radius:6px;
                           border:1px solid rgba(0,0,0,.12);flex-shrink:0;
@@ -78,7 +78,7 @@ def _bins_html(config: dict) -> str:
     <div style="border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;margin:6px 0 14px;">
       <table style="border-collapse:collapse;width:100%;">
         <thead>
-          <tr style="background:#f6f6f6;border-bottom:2px solid #e0e0e0;">
+          <tr style="background:#f6f6f6;border:2px solid #e0e0e0;">
             <th style="padding:10px 18px;text-align:left;font-size:.78em;color:#666;
                        text-transform:uppercase;letter-spacing:.08em;font-weight:700;">Bin</th>
             <th style="padding:10px 18px;text-align:left;font-size:.78em;color:#666;
@@ -118,16 +118,16 @@ def _summary_html(config: dict) -> str:
 
         rows += f"""
         <tr>
-          <td style="padding:8px 16px;border-bottom:1px solid #eee;font-size:.93em;">{cls}</td>
-          <td style="padding:8px 16px;border-bottom:1px solid #eee;">{bin_cell}</td>
-          <td style="padding:8px 16px;border-bottom:1px solid #eee;">{color_cell}</td>
+          <td style="padding:8px 16px;border:1px solid #eee;font-size:.93em;">{cls}</td>
+          <td style="padding:8px 16px;border:1px solid #eee;">{bin_cell}</td>
+          <td style="padding:8px 16px;border:1px solid #eee;">{color_cell}</td>
         </tr>"""
 
     return f"""
     <div style="border:1px solid #e0e0e0;border-radius:10px;overflow:hidden;margin:6px 0;">
       <table style="border-collapse:collapse;width:100%;">
         <thead>
-          <tr style="background:#f6f6f6;border-bottom:2px solid #e0e0e0;">
+          <tr style="background:#f6f6f6;border:2px solid #e0e0e0;">
             <th style="padding:10px 16px;text-align:left;font-size:.78em;color:#666;
                        text-transform:uppercase;letter-spacing:.08em;font-weight:700;">Class</th>
             <th style="padding:10px 16px;text-align:left;font-size:.78em;color:#666;
@@ -250,26 +250,25 @@ def build_config():
 
         # Class Assignments
         with gr.Tab("Class Assignments"):
-            gr.Markdown(
-                "For each trash class, choose which bin it should go into. "
-                "The bin's color will be used on the RGB light of the device."
-            )
 
-            class_dropdowns: list[gr.Dropdown] = []
-            for cls in CLASSES:
-                dd = gr.Dropdown(
-                    label=cls,
-                    choices=bin_names_init,
-                    value=assignments_init.get(cls),
-                    allow_custom_value=False,
-                )
-                class_dropdowns.append(dd)
+            with gr.Row(): 
+                with gr.Column(scale=1):
+                    gr.Markdown("### Current Overview")
+                    summary_html = gr.HTML(value=_summary_html(init_config))
 
-            assign_btn    = gr.Button("Save Assignments", variant="primary", size="lg")
-            assign_status = gr.Markdown("")
+                with gr.Column(scale=2):
+                    class_dropdowns: list[gr.Dropdown] = []
+                    for cls in CLASSES:
+                        dd = gr.Dropdown(
+                            label=cls,
+                            choices=bin_names_init,
+                            value=assignments_init.get(cls),
+                            allow_custom_value=False,
+                        )
+                        class_dropdowns.append(dd)
 
-            gr.Markdown("---\n### Current Overview")
-            summary_html = gr.HTML(value=_summary_html(init_config))
+                    assign_btn    = gr.Button("Save Assignments", variant="primary", size="lg")
+                    assign_status = gr.Markdown("")
 
         # Bin Management
         with gr.Tab("Bin Management"):
@@ -278,11 +277,11 @@ def build_config():
 
             with gr.Row():
 
-                with gr.Column():
+                with gr.Column(scale=1):
                     bins_html_display = gr.HTML(value=_bins_html(init_config))
 
                 # Add new bin
-                with gr.Column():
+                with gr.Column(scale=2):
                     with gr.Accordion("Add New Bin", open=False):
                         with gr.Row():
                             new_bin_name = gr.Textbox(
