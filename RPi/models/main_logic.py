@@ -21,9 +21,15 @@ COOLDOWN = 2
 DISTANCE = 50
 UPDATE_INTERVAL = 0.1
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+CONFIDENCE_THRESHOLD = 0.5
 
 def hex_color_to_rgb(color):
-    return int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+    color = color.lstrip('#')
+    if len(color) == 3:
+        color = ''.join(c*2 for c in color)  # expand shorthand
+    if len(color) != 6:
+        raise ValueError(f"Invalid hex color: #{color}")
+    return int(color[0:2], 16), int(color[2:4], 16), int(color[4:6], 16)
 
 def standby(rgb):
     rgb.set_color(0, 0, 0)
@@ -63,9 +69,16 @@ def active(rgb):
         update_image(annotated_rgb)
 
         boxes = result.boxes  # Bounding box outputs
+
         for box in boxes:
             conf = box.conf[0]            # Confidence score
             cls = box.cls[0]              # Class ID
+
+            if conf < CONFIDENCE_THRESHOLD:
+                lcd.send_string("Unknown trash", 1)
+                lcd.send_string(" ", 2)
+                rgb.set_color(0, 0, 0)
+                continue
 
             class_name = model.names[int(cls)]
 
