@@ -118,3 +118,27 @@ Questions for this conversation:
 This is the feedback on my questions.
 
 - Feedback 1: Make a config page, options for assigning bins to classes, options for assigning colors to bins. 
+
+## Tour moment 3 (Date: 16/06/2026)
+
+Lecturers: Claudia Eeckhout, Paula ACUÑA RONCANCIO, Pieter-Jan Beeckman
+
+Feedback: 
+
+Maybe have kids as target audience
+
+Move shutdown from operating to admin/config page
+
+## Conversation 4 (Date: 17/06/2026)
+
+Lecturer: Nathan Segers
+
+Questions for this conversation:
+
+- Question 1: How do I fix my LCD display flickering? 
+
+This is the feedback on my questions.
+
+- Feedback 1: Make the classname shorter. 
+
+- Reflection: This was way too obvious once I realized. The LCD display prints on line two if line one is not enough. This makes the display flicker when trying to write something else on line 2 aswell. 
