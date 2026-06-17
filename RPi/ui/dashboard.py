@@ -4,6 +4,7 @@ import ui.data_page as data_page
 import ui.operating_page as operating_page
 import ui.debug_page as debug_page
 import ui.config_page as config_page
+import ui.admin_page as admin_page
 import RPi.GPIO as GPIO
 
 def build_dashboard(rgb):
@@ -19,4 +20,6 @@ def build_dashboard(rgb):
             debug_page.build_debug_page(rgb)
         with gr.Tab("Config"):
             config_page.build_config()
+        with gr.Tab("Admin"):
+            admin_page.build_admin_page()
     return app
