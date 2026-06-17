@@ -1,4 +1,31 @@
 import gradio as gr
+from services.bin_manager import get_color_for_class
+
+
+cardboard_color = get_color_for_class("Cardboard")
+organic_color = get_color_for_class("Organic")
+plastic_color = get_color_for_class("Plastic packaging")
+metal_color = get_color_for_class("Metal can")
+glass_color = get_color_for_class("Glass jar")
+plastic_bottle_color = get_color_for_class("Plastic bottle")
+
+def update_colors():
+    cardboard_color = get_color_for_class("Cardboard")
+    organic_color = get_color_for_class("Organic")
+    plastic_color = get_color_for_class("Plastic packaging")
+    metal_color = get_color_for_class("Metal can")
+    glass_color = get_color_for_class("Glass jar")
+    plastic_bottle_color = get_color_for_class("Plastic bottle")
+
+    return gr.update(value=f"""
+        ## Trash colors:
+        <span style='color: {cardboard_color}'>⏺</span> Cardboard / paper  
+        <span style='color: {organic_color}'>⏺</span> Organic  
+        <span style='color: {plastic_color}'>⏺</span> Plastic packaging  
+        <span style='color: {metal_color}'>⏺</span> Metal can  
+        <span style='color: {glass_color}'>⏺</span> Glass jar  
+        <span style='color: {plastic_bottle_color}'>⏺</span> Plastic bottle
+    """)
 
 def build_about_page():
 
@@ -68,12 +95,15 @@ def build_about_page():
                 """)
 
         with gr.Column():
-            gr.Markdown("""
+            trash_colors = gr.Markdown(f"""
                 ## Trash colors:
-                <span style='color: #FBBF24'>⏺</span> Yellow = Cardboard / paper  
-                <span style='color: #1E90FF'>⏺</span> Blue = Plastic packaging  
-                <span style='color: #00EEEE'>⏺</span> Cyan = Plastic bottles  
-                <span style='color: #800080'>⏺</span> Purple = Glass  
-                <span style='color: #008000'>⏺</span> Green = Organic  
-                <span style='color: #FF0000'>⏺</span> Red = Metal can  
+                <span style='color: {cardboard_color}'>⏺</span> Cardboard / paper  
+                <span style='color: {organic_color}'>⏺</span> Organic  
+                <span style='color: {plastic_color}'>⏺</span> Plastic packaging  
+                <span style='color: {metal_color}'>⏺</span> Metal can  
+                <span style='color: {glass_color}'>⏺</span> Glass jar  
+                <span style='color: {plastic_bottle_color}'>⏺</span> Plastic bottle
                 """)
+
+        timer = gr.Timer(2)
+        timer.tick(fn=update_colors, inputs=[], outputs=[trash_colors])
