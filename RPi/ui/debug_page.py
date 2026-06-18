@@ -64,6 +64,6 @@ def build_debug_page(led):
             refresh_btn.click(fn=get_logs, inputs=None, outputs=logs)
 
     # Timer fires every 0.1 second
-    timer = gr.Timer(0.1)
+    timer = gr.Timer(1)
     timer.tick(fn=shoot_picture, outputs=output_img)
     timer.tick(fn=get_distance, inputs=None, outputs=value)
