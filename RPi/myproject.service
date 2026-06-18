@@ -1,0 +1,15 @@
+[Unit]
+Description=ProjectOne Gradio app
+After=network.target
+Wants=network.target
+
+[Service]
+ExecStart=/home/student/.venv/bin/python -u /home/student/student/2025-26-projectone-ctai-Fjanten1/RPi/app.py
+WorkingDirectory=/home/student/student/2025-26-projectone-ctai-Fjanten1/RPi
+StandardOutput=journal
+StandardError=journal
+Restart=always
+User=student
+
+[Install]
+WantedBy=multi-user.target
