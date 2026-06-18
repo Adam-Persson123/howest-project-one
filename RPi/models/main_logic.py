@@ -90,7 +90,7 @@ def active(rgb):
                 class_name = "Plastic package"
 
             lcd.send_string(f"{class_name}", 1)
-            lcd.send_string(f"{bin_name}", 2)
+            lcd.send_string(f"Bin: {bin_name}", 2)
 
             rgb_color = hex_color_to_rgb(color)
             rgb.set_color(rgb_color[0], rgb_color[1], rgb_color[2])
