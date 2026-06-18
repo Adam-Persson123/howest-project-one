@@ -100,7 +100,6 @@ def active(rgb):
             # if there are more than one object detected, wait
             if len(boxes) > 1:
                 sleep(0.5)
-                print("More than one object detected. Waiting 0.5 seconds before next update...")
     
 
 def main_loop(rgb):
