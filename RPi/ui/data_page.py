@@ -73,9 +73,9 @@ def build_data_page():
             latest_detection = gr.DataFrame(label="Latest AI detection")
         with gr.Column():
             with gr.Row():
-                number_of_detections = gr.Textbox(label="Number of detections", value=get_number_of_detections_as_int(), interactive=False)
-                number_of_sessions = gr.Textbox(label="Number of sessions", value=get_number_of_sessions(), interactive=False)
-                detections_per_session = gr.Textbox(label="Avg. detections per session", value=get_detections_per_session(), interactive=False)
+                number_of_detections = gr.Textbox(label="Number of trash detections", value=get_number_of_detections_as_int(), interactive=False)
+                number_of_sessions = gr.Textbox(label="Number of users", value=get_number_of_sessions(), interactive=False)
+                detections_per_session = gr.Textbox(label="Avg. trash detections per user", value=get_detections_per_session(), interactive=False)
 
     with gr.Row():
         with gr.Column():
