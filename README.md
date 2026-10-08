@@ -1,18 +1,12 @@
 # Project Title
 
 **FIRST & LAST NAME:** 
-ADAM PERSSON
+Adam Persson
 
-**Sparring Partner:** 
-Carl Jonsson
 
-**Project Summary in max 10 words:** 
-Self-sorting bin that tells you where to throw your trash. 
+**Project Summary** 
+A device that tells you where to throw your trash. 
 
 ---
 
-See [PD](PD.md)
-
----
-
-For Docs, see [Docs/README.md](Docs/README.md)
+https://www.instructables.com/The-Self-sorting-Bin
